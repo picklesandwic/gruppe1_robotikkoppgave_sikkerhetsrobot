@@ -1,0 +1,406 @@
+<?xml version='1.0'?>
+<robot name="my_mobile_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find custom_robot_sim)/urdf/common_macros.xacro" />
+  <xacro:include filename="$(find custom_robot_sim)/urdf/mobile_manipulator.gazebo.xacro" />
+
+  <!--stor kroppen som basen-->
+  <link name="base_link">
+    <visual name="base_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.6 0.6 0.2"/> 
+      </geometry>
+    </visual>
+    <collision name="base_collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0 0 0"/>
+      </geometry>
+    </collision>     
+    <xacro:inertial_box length="0.6" width="0.6" height="0.2" density="1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:inertial_box>
+  </link>
+
+  <!--smalere kroppen oppå basen-->
+  <link name="body_link">
+    <visual name="body_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/> <!--må fin justeres-->
+      <geometry>
+        <box size="0.4 0.4 1.4"/> 
+      </geometry>
+    </visual>
+    <collision name="body_collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.4 0.4 1.4"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_box length="0.4" width="0.4" height="1.4" density="1">
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_box>
+  </link>
+
+  <!-- Ledd som kobler kroppen til basen -->
+  <joint name="body_to_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="body_link"/>
+    <origin xyz="0 0 0.8" rpy="0 0 0"/>
+  </joint>
+  
+  
+  
+  
+  <!--==========HJULENE==========-->
+  
+  
+  
+  
+
+  <!-- Venstre forhjul -->
+  <!--=====================================================================-->
+  <joint type="continuous" name="left_front_wheel_joint">
+    <origin xyz="0.2 0.3 -0.1" rpy="0 0 0"/>
+    <child link="left_front_wheel"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="100"/>
+  </joint>
+  
+  <link name="left_front_wheel">
+    <visual name="left_front_wheel_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </visual>
+    <collision name="left_front_wheel_collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+	  <xacro:inertial_cylinder radius="0.1" length="0.05" density="1">
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_cylinder>
+  </link>
+
+  <!-- Høyre forhjul -->
+  <!--=====================================================================-->
+  <joint type="continuous" name="right_front_wheel_joint">
+    <origin xyz="0.2 -0.3 -0.1" rpy="0 0 0"/>
+    <child link="right_front_wheel"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="100"/>
+  </joint>
+  
+  <link name="right_front_wheel">
+    <visual name="right_front_wheel_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </visual>
+    <collision name="right_front_wheel_collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_cylinder radius="0.1" length="0.05" density="1">
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_cylinder>
+  </link>
+  
+
+  <!-- Bakre venstre hjul -->
+  <!--=====================================================================-->
+  <joint type="continuous" name="left_back_wheel_joint">
+    <origin xyz="-0.2 0.3 -0.1" rpy="0 0 0"/>
+    <child link="left_back_wheel"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="100"/>
+  </joint>
+  
+  <link name="left_back_wheel">
+    <visual name="left_back_wheel_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </visual>
+    <collision name="left_back_wheel_collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_cylinder radius="0.1" length="0.05" density="1">
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_cylinder>
+  </link>
+
+  <!-- Bakre høyre hjul -->
+  <!--=====================================================================-->
+  <joint type="continuous" name="right_back_wheel_joint">
+    <origin xyz="-0.2 -0.3 -0.1" rpy="0 0 0"/>
+    <child link="right_back_wheel"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="100"/>
+  </joint>
+  
+  <link name="right_back_wheel">
+    <visual name="right_back_wheel_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </visual>
+    <collision name="right_back_wheel_collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_cylinder radius="0.1" length="0.05" density="1">
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_cylinder>
+  </link>
+
+  
+  
+
+  
+<!--==========ARMEN==========-->
+  
+
+
+<!-- Arm base  -->
+<joint name="base_to_arm_joint" type="revolute">
+  <parent link="body_link"/>
+  <child link="arm_base"/>
+  <origin xyz="0.0 0.25 0.2" rpy="0 0 0"/> 
+  <axis xyz="0 1 0"/>
+  <limit lower="-3.1415" upper="3.1415" effort="10" velocity="1.0"/>
+</joint>
+
+<link name="arm_base">
+  <visual>
+    <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+    <geometry>
+      <cylinder radius="0.05" length="0.1"/>
+    </geometry>
+  </visual>
+  <collision name="base_to_arm_collision">
+    <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+    <geometry>
+      <cylinder radius="0" length="0"/>
+    </geometry>
+  </collision>
+  <xacro:inertial_cylinder radius="0.5" length="0.1" density="1">
+	  <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+  </xacro:inertial_cylinder>
+</link> 
+
+<!-- shoulder -->
+<!--=====================================================================-->
+<!--
+  <joint name="shoulder_joint" type="fixed">
+    <parent link="body_link"/>
+    <child link="shoulder_link"/>
+    <origin xyz="0.0 0.25 0.2" rpy="0 0 0"/>
+  </joint>
+  
+  <link name="shoulder_link">
+    <visual name="shoulder_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/> 
+      </geometry>
+    </visual>
+    <collision name="shoulder_collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_box length="0.1" width="0.1" height="0.1" density="1">
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_box>
+  </link>
+-->
+
+<!-- joint 1 -->
+<!--=====================================================================-->
+<joint name="joint_1" type="revolute">
+  <parent link="arm_base"/>
+  <child link="link_1"/>
+  <origin xyz="0 0 -0.225" rpy="0 0 0"/> <!--juster-->
+  <axis xyz="0 0 1"/>
+  <limit lower="-3.1415" upper="3.1415" effort="10" velocity="1.0"/>
+</joint>
+
+<link name="link_1">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.03" length="0.35"/>
+    </geometry>
+  </visual>
+  <collision name="ledd_1_collision">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.03" length="0.3"/>
+    </geometry>
+  </collision>
+  <xacro:inertial_cylinder radius="0.03" length="0.35" density="1">
+	  <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:inertial_cylinder>
+</link>
+
+
+<!-- upper_arm -->
+<!--=====================================================================-->
+<!--
+  <joint name="upper_arm_joint" type="fixed">
+    <parent link="link_1"/>
+    <child link="upper_arm_link"/>
+    <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+  </joint>
+  
+  <link name="upper_arm_link">
+    <visual name="upper_arm_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.25"/> 
+      </geometry>
+    </visual>
+    <collision name="upper_arm_collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+       <cylinder radius="0.025" length="0.25"/> 
+      </geometry>
+    </collision>
+    <xacro:inertial_cylinder radius="0.025" length="0.25" density="1">
+	   <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_cylinder>
+  </link>
+-->
+
+<!-- joint 2 -->
+<!--=====================================================================-->
+<joint name="joint_2" type="revolute">
+  <parent link="link_1"/>
+  <child link="link_2"/>
+  <origin xyz="0 0 -0.35" rpy="0 0 0"/>
+  <axis xyz="0 1 0"/>
+  <limit lower="-3.1415" upper="3.1415" effort="10" velocity="1.0"/>
+</joint>
+
+<link name="link_2">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.03" length="0.35"/>
+    </geometry>
+  </visual>
+  <collision name="ledd_2_collision">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.03" length="0.3"/>
+    </geometry>
+  </collision>
+  <xacro:inertial_cylinder radius="0.03" length="0.35" density="1">
+	  <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:inertial_cylinder>
+</link>
+
+<!-- lower_arm -->
+<!--=====================================================================-->
+<!--
+  <joint name="lower_arm_joint" type="fixed">
+    <parent link="link_2"/>
+    <child link="lower_arm_link"/>
+    <origin xyz="0 0 -0.125" rpy="0 0 0"/>
+  </joint>
+  
+  <link name="lower_arm_link">
+    <visual name="lower_arm_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.2"/> 
+      </geometry>
+    </visual>
+    <collision name="lower_arm_collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+       <cylinder radius="0.025" length="0.2"/> 
+      </geometry>
+    </collision>
+    <xacro:inertial_cylinder radius="0.025" length="0.2" density="1">
+	   <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_cylinder>
+  </link>
+
+-->
+<!-- joint 3 -->
+<!--=====================================================================-->
+<joint name="joint_3" type="revolute">
+  <parent link="link_2"/>
+  <child link="link_3"/>
+  <origin xyz="0 0 -0.225" rpy="0 0 0"/> 
+  <axis xyz="0 1 0"/>
+  <limit lower="-3.1415" upper="3.1415" effort="10" velocity="1.0"/>
+</joint>
+
+<link name="link_3">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.04" length="0.1"/>
+    </geometry>
+  </visual>
+  <collision name="ledd_3_collision">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.04" length="0.05"/>
+    </geometry>
+  </collision>
+  <xacro:inertial_cylinder radius="0.04" length="0.1" density="1">
+	  <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:inertial_cylinder>
+</link>
+
+
+
+<!-- End Effector -->
+<!--=====================================================================-->
+<!--
+<joint name="end_effector_joint" type="fixed">
+    <parent link="link_3"/>
+    <child link="end_effector_link"/>
+    <origin xyz="0 0 -0.075" rpy="0 0 0"/>
+  </joint>
+  
+  <link name="end_effector_link">
+    <visual name="end_effector_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/> 
+      </geometry>
+    </visual>
+    <collision name="end_effector_collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+       <cylinder radius="0.01" length="0.1"/> 
+      </geometry>
+    </collision>
+    <xacro:inertial_cylinder radius="0.01" length="0.1" density="1">
+	   <origin xyz="0 0 0" rpy="0 0 0"/>
+	  </xacro:inertial_cylinder>
+  </link>
+-->
+</robot>
